@@ -43,6 +43,15 @@ async function initializeViewer() {
         // Disable default double-click zoom
         viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
+        // Load OSM Buildings for 3D visualization
+        try {
+            const osmBuildings = await Cesium.createOsmBuildingsAsync();
+            viewer.scene.primitives.add(osmBuildings);
+            console.log('OSM Buildings loaded successfully');
+        } catch (error) {
+            console.warn('OSM Buildings failed to load (may not be available for all regions):', error);
+        }
+
         console.log('Cesium Viewer initialized successfully');
         
         // Initialize landmarks and scene after viewer is ready
@@ -63,10 +72,10 @@ const scenes = [
         title: 'Welcome to Mathura-Vrindavan',
         description: 'Embark on a spiritual journey through the sacred lands of Mathura and Vrindavan, where Lord Krishna spent his divine childhood. This interactive 3D guide will take you through the most revered temples and pilgrimage sites.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 5000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 2500),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-45),
+                pitch: Cesium.Math.toRadians(-35),
                 roll: 0
             }
         },
@@ -77,7 +86,7 @@ const scenes = [
         title: 'Krishna Janmabhoomi Temple',
         description: 'The birthplace of Lord Krishna. This ancient temple stands at the exact spot where Krishna is believed to have been born. The temple complex showcases architectural brilliance and deep spiritual significance.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6729, 27.4958, 1500),
+            destination: Cesium.Cartesian3.fromDegrees(77.6729, 27.4958, 500),
             orientation: {
                 heading: Cesium.Math.toRadians(45),
                 pitch: Cesium.Math.toRadians(-30),
@@ -91,10 +100,10 @@ const scenes = [
         title: 'Vishram Ghat & Yamuna River',
         description: 'The sacred ghats of the Yamuna River where Krishna is said to have rested after defeating the demon Kansa. The river itself is considered holy and is central to the spiritual life of Mathura.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.7027, 27.4950, 1200),
+            destination: Cesium.Cartesian3.fromDegrees(77.7027, 27.4950, 450),
             orientation: {
                 heading: Cesium.Math.toRadians(90),
-                pitch: Cesium.Math.toRadians(-35),
+                pitch: Cesium.Math.toRadians(-32),
                 roll: 0
             }
         },
@@ -105,10 +114,10 @@ const scenes = [
         title: 'Dwarkadhish Temple',
         description: 'Dedicated to Krishna as the king of Dwarka, this ancient temple reflects the architectural style of medieval India. It is one of the oldest temples in Mathura with intricate stone carvings and sculptures.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6841, 27.4909, 1500),
+            destination: Cesium.Cartesian3.fromDegrees(77.6841, 27.4909, 480),
             orientation: {
                 heading: Cesium.Math.toRadians(135),
-                pitch: Cesium.Math.toRadians(-30),
+                pitch: Cesium.Math.toRadians(-28),
                 roll: 0
             }
         },
@@ -119,10 +128,10 @@ const scenes = [
         title: 'Banke Bihari Temple',
         description: 'Located in Vrindavan, this temple is famous for its unique idol of Krishna in a three-fold bend pose (Tribhanga). The temple attracts thousands of devotees daily and is known for its vibrant festivals and rituals.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6468, 27.5717, 1400),
+            destination: Cesium.Cartesian3.fromDegrees(77.6468, 27.5717, 520),
             orientation: {
                 heading: Cesium.Math.toRadians(180),
-                pitch: Cesium.Math.toRadians(-35),
+                pitch: Cesium.Math.toRadians(-30),
                 roll: 0
             }
         },
@@ -133,10 +142,10 @@ const scenes = [
         title: 'ISKCON Temple',
         description: 'The International Society for Krishna Consciousness temple in Vrindavan is a modern spiritual center. It features magnificent architecture, beautiful gardens, and serves as a hub for spiritual education and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6309, 27.5819, 1300),
+            destination: Cesium.Cartesian3.fromDegrees(77.6309, 27.5819, 550),
             orientation: {
                 heading: Cesium.Math.toRadians(225),
-                pitch: Cesium.Math.toRadians(-30),
+                pitch: Cesium.Math.toRadians(-29),
                 roll: 0
             }
         },
@@ -147,10 +156,10 @@ const scenes = [
         title: 'Prem Mandir',
         description: 'A modern architectural marvel completed in 2012, Prem Mandir showcases white marble craftsmanship and intricate carvings. The temple is beautifully illuminated at night and offers panoramic views of Vrindavan.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6583, 27.5555, 1400),
+            destination: Cesium.Cartesian3.fromDegrees(77.6583, 27.5555, 530),
             orientation: {
                 heading: Cesium.Math.toRadians(270),
-                pitch: Cesium.Math.toRadians(-35),
+                pitch: Cesium.Math.toRadians(-31),
                 roll: 0
             }
         },
@@ -161,10 +170,10 @@ const scenes = [
         title: 'Nidhivan',
         description: 'A mystical forest sanctuary where Krishna is believed to perform divine dances (Raas Leela) every night. The dense forest of sacred trees attracts pilgrims seeking spiritual experiences and divine blessings.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6750, 27.5650, 1200),
+            destination: Cesium.Cartesian3.fromDegrees(77.6750, 27.5650, 600),
             orientation: {
                 heading: Cesium.Math.toRadians(315),
-                pitch: Cesium.Math.toRadians(-40),
+                pitch: Cesium.Math.toRadians(-25),
                 roll: 0
             }
         },
@@ -175,10 +184,10 @@ const scenes = [
         title: 'Govardhan Hill',
         description: 'A sacred mountain located 21 km from Mathura, where Krishna is believed to have lifted the entire hill to protect villagers from torrential rain. Pilgrims circumambulate the hill in reverence and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.5944, 27.5031, 2000),
+            destination: Cesium.Cartesian3.fromDegrees(77.5944, 27.5031, 800),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-40),
+                pitch: Cesium.Math.toRadians(-28),
                 roll: 0
             }
         },
@@ -189,10 +198,10 @@ const scenes = [
         title: 'Festivals: Holi & Janmashtami',
         description: 'Mathura-Vrindavan is the epicenter of Krishna celebrations. Holi (Festival of Colors) and Janmashtami (Krishna\'s Birthday) are celebrated with grandeur, featuring colorful processions, traditional music, and spiritual fervor.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6400, 27.5400, 3000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6400, 27.5400, 2000),
             orientation: {
                 heading: Cesium.Math.toRadians(45),
-                pitch: Cesium.Math.toRadians(-45),
+                pitch: Cesium.Math.toRadians(-32),
                 roll: 0
             }
         },
@@ -203,10 +212,10 @@ const scenes = [
         title: 'Travel Tips',
         description: 'Best time to visit: October to March (cool season). How to reach: Nearest airport is Indira Gandhi International Airport in Delhi (58 km away). Local transport includes taxis, auto-rickshaws, and bicycles. Plan 3-5 days to explore all major sites.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 5000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 2500),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-45),
+                pitch: Cesium.Math.toRadians(-35),
                 roll: 0
             }
         },
@@ -217,10 +226,10 @@ const scenes = [
         title: 'Thank You',
         description: 'Thank you for joining this spiritual journey through Mathura-Vrindavan. May you find peace, enlightenment, and divine grace in these sacred lands. Hari Om!',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 5000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 3000),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-45),
+                pitch: Cesium.Math.toRadians(-35),
                 roll: 0
             }
         },
@@ -237,16 +246,25 @@ function updateScene(index) {
     currentSceneIndex = index;
     const scene = scenes[index];
 
-    // Update UI
-    document.getElementById('sceneTitle').textContent = scene.title;
-    document.getElementById('sceneDescription').textContent = scene.description;
-    document.getElementById('sceneCounter').textContent = `${index + 1} / ${scenes.length}`;
+    // Fade out effect
+    const descPanel = document.querySelector('.scene-description');
+    descPanel.classList.add('fade-out');
+
+    // Update content after fade
+    setTimeout(() => {
+        document.getElementById('sceneTitle').textContent = scene.title;
+        document.getElementById('sceneDescription').textContent = scene.description;
+        document.getElementById('sceneCounter').textContent = `${index + 1} / ${scenes.length}`;
+        
+        // Fade in effect
+        descPanel.classList.remove('fade-out');
+    }, 200);
 
     // Update camera with animation
     viewer.camera.flyTo({
         destination: scene.camera.destination,
         orientation: scene.camera.orientation,
-        duration: 2
+        duration: 3
     });
 
     // Show/hide chart
@@ -435,7 +453,7 @@ async function addLandmarks() {
         for (let i = 0; i < entities.length; i++) {
             const entity = entities[i];
             entity.point = new Cesium.PointGraphics({
-                pixelSize: 8,
+                pixelSize: 14,
                 color: Cesium.Color.fromCssColorString('#d4a574'),
                 outlineColor: Cesium.Color.fromCssColorString('#6b4423'),
                 outlineWidth: 2
@@ -443,13 +461,13 @@ async function addLandmarks() {
             
             entity.label = new Cesium.LabelGraphics({
                 text: entity.properties.name.getValue(),
-                font: '12px sans-serif',
+                font: 'bold 16px sans-serif',
                 fillColor: Cesium.Color.WHITE,
                 outlineColor: Cesium.Color.fromCssColorString('#6b4423'),
                 outlineWidth: 2,
                 style: Cesium.LabelStyle.FILL_AND_OUTLINE,
                 verticalOrigin: Cesium.VerticalOrigin.TOP,
-                pixelOffset: new Cesium.Cartesian2(0, 15)
+                pixelOffset: new Cesium.Cartesian2(0, 20)
             });
         }
         console.log('Landmarks loaded successfully');
