@@ -10,25 +10,49 @@ if (!cesiumToken) {
 }
 Cesium.Ion.defaultAccessToken = cesiumToken || '';
 
-// Create Cesium Viewer
-const viewer = new Cesium.Viewer('cesiumContainer', {
-    terrainProvider: Cesium.createWorldTerrain(),
-    imageryProvider: Cesium.ArcGisMapServerImageryProvider.fromUrl(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
-    ),
-    animation: false,
-    timeline: false,
-    homeButton: false,
-    fullscreenButton: true,
-    vrButton: false,
-    infoBox: false,
-    sceneModePicker: false,
-    navigationHelpButton: false,
-    baseLayerPicker: true,
-});
+let viewer; // Declare viewer globally
 
-// Disable default double-click zoom
-viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+// ============================================
+// ASYNC VIEWER INITIALIZATION
+// ============================================
+async function initializeViewer() {
+    try {
+        // Create terrain provider asynchronously
+        const terrainProvider = await Cesium.createWorldTerrainAsync();
+        
+        // Create imagery provider asynchronously
+        const imageryProvider = await Cesium.ArcGisMapServerImageryProvider.fromUrl(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+        );
+
+        // Create Cesium Viewer with resolved providers
+        viewer = new Cesium.Viewer('cesiumContainer', {
+            terrainProvider: terrainProvider,
+            imageryProvider: imageryProvider,
+            animation: false,
+            timeline: false,
+            homeButton: false,
+            fullscreenButton: true,
+            vrButton: false,
+            infoBox: false,
+            sceneModePicker: false,
+            navigationHelpButton: false,
+            baseLayerPicker: true,
+        });
+
+        // Disable default double-click zoom
+        viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
+        console.log('Cesium Viewer initialized successfully');
+        
+        // Initialize landmarks and scene after viewer is ready
+        await addLandmarks();
+        updateScene(0);
+        
+    } catch (error) {
+        console.error('Error initializing Cesium viewer:', error);
+    }
+}
 
 // ============================================
 // SCENES STRUCTURE
@@ -402,8 +426,9 @@ const landmarksGeoJSON = {
 };
 
 // Add GeoJSON entities to map
-function addLandmarks() {
-    Cesium.GeoJsonDataSource.load(landmarksGeoJSON).then(dataSource => {
+async function addLandmarks() {
+    try {
+        const dataSource = await Cesium.GeoJsonDataSource.load(landmarksGeoJSON);
         viewer.dataSources.add(dataSource);
         const entities = dataSource.entities.values;
         
@@ -427,7 +452,10 @@ function addLandmarks() {
                 pixelOffset: new Cesium.Cartesian2(0, 15)
             });
         }
-    });
+        console.log('Landmarks loaded successfully');
+    } catch (error) {
+        console.error('Error loading landmarks:', error);
+    }
 }
 
 // ============================================
@@ -443,10 +471,9 @@ function toggleFacilities() {
 document.getElementById('facilitiesToggle').addEventListener('change', toggleFacilities);
 
 // ============================================
-// INITIALIZE
+// INITIALIZE APPLICATION
 // ============================================
-addLandmarks();
-updateScene(0);
+initializeViewer();
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
@@ -457,4 +484,4 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-console.log('Mathura-Vrindavan: A Spiritual Journey - Initialized');
+console.log('Mathura-Vrindavan: A Spiritual Journey - Script loaded');
