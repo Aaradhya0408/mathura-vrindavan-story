@@ -36,10 +36,10 @@ const scenes = [
         title: 'Krishna Janmabhoomi Temple',
         description: 'The birthplace of Lord Krishna. This ancient temple stands at the exact spot where Krishna is believed to have been born. The temple complex showcases architectural brilliance and deep spiritual significance.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.669730, 27.504727, 350),
+            destination: Cesium.Cartesian3.fromDegrees(77.669795806, 27.504727, 418.2712),
             orientation: {
-                heading: Cesium.Math.toRadians(30),
-                pitch: Cesium.Math.toRadians(-28),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -50,10 +50,10 @@ const scenes = [
         title: 'Vishram Ghat & Yamuna River',
         description: 'The sacred ghats of the Yamuna River where Krishna is said to have rested after defeating the demon Kansa. The river itself is considered holy and is central to the spiritual life of Mathura.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.686689, 27.504471, 320),
+            destination: Cesium.Cartesian3.fromDegrees(77.686689, 27.504471, 723),
             orientation: {
-                heading: Cesium.Math.toRadians(90),
-                pitch: Cesium.Math.toRadians(-30),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -64,12 +64,12 @@ const scenes = [
         title: 'Dwarkadhish Temple',
         description: 'Dedicated to Krishna as the king of Dwarka, this ancient temple reflects the architectural style of medieval India. It is one of the oldest temples in Mathura with intricate stone carvings and sculptures.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.682433, 27.506264, 380),
-            orientation: {
-                heading: Cesium.Math.toRadians(120),
-                pitch: Cesium.Math.toRadians(-26),
-                roll: 0
-            }
+           destination: Cesium.Cartesian3.fromDegrees(77.68475664290054, 27.505050728, 325.43529),
+orientation: {
+    heading: Cesium.Math.toRadians(360),
+    pitch: Cesium.Math.toRadians(-90),
+    roll: 0
+}
         },
         showChart: false
     },
@@ -78,10 +78,10 @@ const scenes = [
         title: 'Banke Bihari Temple',
         description: 'Located in Vrindavan, this temple is famous for its unique idol of Krishna in a three-fold bend pose (Tribhanga). The temple attracts thousands of devotees daily and is known for its vibrant festivals and rituals.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.702450, 27.583908, 400),
+            destination: Cesium.Cartesian3.fromDegrees(77.702297, 27.582296, 450.8624),
             orientation: {
-                heading: Cesium.Math.toRadians(150),
-                pitch: Cesium.Math.toRadians(-28),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -92,10 +92,10 @@ const scenes = [
         title: 'ISKCON Temple',
         description: 'The International Society for Krishna Consciousness temple in Vrindavan is a modern spiritual center. It features magnificent architecture, beautiful gardens, and serves as a hub for spiritual education and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.677927, 27.572049, 420),
+            destination: Cesium.Cartesian3.fromDegrees(77.67514751042745, 27.569233875039977 ,433.9466974273855),
             orientation: {
-                heading: Cesium.Math.toRadians(180),
-                pitch: Cesium.Math.toRadians(-27),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -106,10 +106,10 @@ const scenes = [
         title: 'Prem Mandir',
         description: 'A modern architectural marvel completed in 2012, Prem Mandir showcases white marble craftsmanship and intricate carvings. The temple is beautifully illuminated at night and offers panoramic views of Vrindavan.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.671960, 27.572091, 380),
+            destination: Cesium.Cartesian3.fromDegrees(77.671960, 27.572091, 744),
             orientation: {
-                heading: Cesium.Math.toRadians(210),
-                pitch: Cesium.Math.toRadians(-29),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -120,10 +120,10 @@ const scenes = [
         title: 'Nidhivan',
         description: 'A mystical forest sanctuary where Krishna is believed to perform divine dances (Raas Leela) every night. The dense forest of sacred trees attracts pilgrims seeking spiritual experiences and divine blessings.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.675043, 27.565089, 360),
+            destination: Cesium.Cartesian3.fromDegrees( 77.70455403026638,27.580250327 , 474),
             orientation: {
-                heading: Cesium.Math.toRadians(240),
-                pitch: Cesium.Math.toRadians(-26),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -134,10 +134,10 @@ const scenes = [
         title: 'Govardhan Hill',
         description: 'A sacred mountain located 21 km from Mathura, where Krishna is believed to have lifted the entire hill to protect villagers from torrential rain. Pilgrims circumambulate the hill in reverence and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.597643, 27.503801, 900),
+            destination: Cesium.Cartesian3.fromDegrees(77.4437643, 27.43801, 688.5361),
             orientation: {
-                heading: Cesium.Math.toRadians(270),
-                pitch: Cesium.Math.toRadians(-32),
+                heading: Cesium.Math.toRadians(360),
+                pitch: Cesium.Math.toRadians(-90),
                 roll: 0
             }
         },
@@ -449,7 +449,9 @@ document.getElementById('facilitiesToggle').addEventListener('change', toggleFac
 // ============================================
 // ASYNC VIEWER INITIALIZATION
 // ============================================
-async function initializeViewer() {
+async function initializeViewer()
+ {
+    window.viewer = viewer; // TEMPORARY - for finding camera angles
     try {
         // Create terrain provider asynchronously
         const terrainProvider = await Cesium.createWorldTerrainAsync();
@@ -475,19 +477,18 @@ async function initializeViewer() {
             shadows: true,
             shouldAnimate: true
         });
-
+window.viewer = viewer; // TEMPORARY - for finding camera angles
         // Disable default double-click zoom
         viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
         // Load OSM Buildings for 3D visualization
-        try {
-            const osmBuildings = await Cesium.createOsmBuildingsAsync();
-            viewer.scene.primitives.add(osmBuildings);
-            console.log('✅ OSM Buildings loaded successfully - 3D buildings will now be visible!');
-        } catch (error) {
-            console.warn('⚠️ OSM Buildings failed to load (may not be available for all regions):', error);
-        }
-
+       try {
+    const photorealisticTileset = await Cesium.createGooglePhotorealistic3DTileset();
+    viewer.scene.primitives.add(photorealisticTileset);
+    console.log('✅ Photorealistic 3D Tiles loaded successfully!');
+} catch (error) {
+    console.warn('⚠️ Photorealistic 3D Tiles failed to load:', error);
+}
         // Enable lighting for better 3D effect
         viewer.scene.globe.enableLighting = true;
 

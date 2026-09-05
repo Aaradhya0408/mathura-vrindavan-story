@@ -4,7 +4,7 @@ An interactive 3D tourist guide for exploring the sacred spiritual landmarks of 
 
 ## 🌟 Project Overview
 
-This is a **Cesium-certified** geospatial web application that provides:
+This is a CesiumJS-powered geospatial web application, built with the goal of being submitted for Cesium Certification, that provides:
 
 - **Scene-based guided navigation** with smooth camera transitions between 12 spiritual locations
 - **Interactive 3D maps** powered by CesiumJS with satellite imagery and terrain
