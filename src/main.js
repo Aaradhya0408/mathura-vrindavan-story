@@ -11,60 +11,10 @@ if (!cesiumToken) {
 Cesium.Ion.defaultAccessToken = cesiumToken || '';
 
 let viewer; // Declare viewer globally
+let currentSceneIndex = 0; // Move this to global scope
 
 // ============================================
-// ASYNC VIEWER INITIALIZATION
-// ============================================
-async function initializeViewer() {
-    try {
-        // Create terrain provider asynchronously
-        const terrainProvider = await Cesium.createWorldTerrainAsync();
-        
-        // Create imagery provider asynchronously
-        const imageryProvider = await Cesium.ArcGisMapServerImageryProvider.fromUrl(
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
-        );
-
-        // Create Cesium Viewer with resolved providers
-        viewer = new Cesium.Viewer('cesiumContainer', {
-            terrainProvider: terrainProvider,
-            imageryProvider: imageryProvider,
-            animation: false,
-            timeline: false,
-            homeButton: false,
-            fullscreenButton: true,
-            vrButton: false,
-            infoBox: false,
-            sceneModePicker: false,
-            navigationHelpButton: false,
-            baseLayerPicker: true,
-        });
-
-        // Disable default double-click zoom
-        viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-
-        // Load OSM Buildings for 3D visualization
-        try {
-            const osmBuildings = await Cesium.createOsmBuildingsAsync();
-            viewer.scene.primitives.add(osmBuildings);
-            console.log('OSM Buildings loaded successfully');
-        } catch (error) {
-            console.warn('OSM Buildings failed to load (may not be available for all regions):', error);
-        }
-
-        console.log('Cesium Viewer initialized successfully');
-        
-        // Initialize landmarks and scene after viewer is ready
-        await addLandmarks();
-        updateScene(0);
-        
-    } catch (error) {
-        console.error('Error initializing Cesium viewer:', error);
-    }
-}
-
-// ============================================
-// SCENES STRUCTURE
+// SCENES STRUCTURE - WITH ACCURATE COORDINATES
 // ============================================
 const scenes = [
     {
@@ -72,10 +22,10 @@ const scenes = [
         title: 'Welcome to Mathura-Vrindavan',
         description: 'Embark on a spiritual journey through the sacred lands of Mathura and Vrindavan, where Lord Krishna spent his divine childhood. This interactive 3D guide will take you through the most revered temples and pilgrimage sites.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 2500),
+            destination: Cesium.Cartesian3.fromDegrees(77.6850, 27.5350, 3500),
             orientation: {
-                heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-35),
+                heading: Cesium.Math.toRadians(45),
+                pitch: Cesium.Math.toRadians(-40),
                 roll: 0
             }
         },
@@ -86,10 +36,10 @@ const scenes = [
         title: 'Krishna Janmabhoomi Temple',
         description: 'The birthplace of Lord Krishna. This ancient temple stands at the exact spot where Krishna is believed to have been born. The temple complex showcases architectural brilliance and deep spiritual significance.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6729, 27.4958, 500),
+            destination: Cesium.Cartesian3.fromDegrees(77.669730, 27.504727, 350),
             orientation: {
-                heading: Cesium.Math.toRadians(45),
-                pitch: Cesium.Math.toRadians(-30),
+                heading: Cesium.Math.toRadians(30),
+                pitch: Cesium.Math.toRadians(-28),
                 roll: 0
             }
         },
@@ -100,10 +50,10 @@ const scenes = [
         title: 'Vishram Ghat & Yamuna River',
         description: 'The sacred ghats of the Yamuna River where Krishna is said to have rested after defeating the demon Kansa. The river itself is considered holy and is central to the spiritual life of Mathura.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.7027, 27.4950, 450),
+            destination: Cesium.Cartesian3.fromDegrees(77.686689, 27.504471, 320),
             orientation: {
                 heading: Cesium.Math.toRadians(90),
-                pitch: Cesium.Math.toRadians(-32),
+                pitch: Cesium.Math.toRadians(-30),
                 roll: 0
             }
         },
@@ -114,10 +64,10 @@ const scenes = [
         title: 'Dwarkadhish Temple',
         description: 'Dedicated to Krishna as the king of Dwarka, this ancient temple reflects the architectural style of medieval India. It is one of the oldest temples in Mathura with intricate stone carvings and sculptures.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6841, 27.4909, 480),
+            destination: Cesium.Cartesian3.fromDegrees(77.682433, 27.506264, 380),
             orientation: {
-                heading: Cesium.Math.toRadians(135),
-                pitch: Cesium.Math.toRadians(-28),
+                heading: Cesium.Math.toRadians(120),
+                pitch: Cesium.Math.toRadians(-26),
                 roll: 0
             }
         },
@@ -128,10 +78,10 @@ const scenes = [
         title: 'Banke Bihari Temple',
         description: 'Located in Vrindavan, this temple is famous for its unique idol of Krishna in a three-fold bend pose (Tribhanga). The temple attracts thousands of devotees daily and is known for its vibrant festivals and rituals.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6468, 27.5717, 520),
+            destination: Cesium.Cartesian3.fromDegrees(77.702450, 27.583908, 400),
             orientation: {
-                heading: Cesium.Math.toRadians(180),
-                pitch: Cesium.Math.toRadians(-30),
+                heading: Cesium.Math.toRadians(150),
+                pitch: Cesium.Math.toRadians(-28),
                 roll: 0
             }
         },
@@ -142,10 +92,10 @@ const scenes = [
         title: 'ISKCON Temple',
         description: 'The International Society for Krishna Consciousness temple in Vrindavan is a modern spiritual center. It features magnificent architecture, beautiful gardens, and serves as a hub for spiritual education and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6309, 27.5819, 550),
+            destination: Cesium.Cartesian3.fromDegrees(77.677927, 27.572049, 420),
             orientation: {
-                heading: Cesium.Math.toRadians(225),
-                pitch: Cesium.Math.toRadians(-29),
+                heading: Cesium.Math.toRadians(180),
+                pitch: Cesium.Math.toRadians(-27),
                 roll: 0
             }
         },
@@ -156,10 +106,10 @@ const scenes = [
         title: 'Prem Mandir',
         description: 'A modern architectural marvel completed in 2012, Prem Mandir showcases white marble craftsmanship and intricate carvings. The temple is beautifully illuminated at night and offers panoramic views of Vrindavan.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6583, 27.5555, 530),
+            destination: Cesium.Cartesian3.fromDegrees(77.671960, 27.572091, 380),
             orientation: {
-                heading: Cesium.Math.toRadians(270),
-                pitch: Cesium.Math.toRadians(-31),
+                heading: Cesium.Math.toRadians(210),
+                pitch: Cesium.Math.toRadians(-29),
                 roll: 0
             }
         },
@@ -170,10 +120,10 @@ const scenes = [
         title: 'Nidhivan',
         description: 'A mystical forest sanctuary where Krishna is believed to perform divine dances (Raas Leela) every night. The dense forest of sacred trees attracts pilgrims seeking spiritual experiences and divine blessings.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6750, 27.5650, 600),
+            destination: Cesium.Cartesian3.fromDegrees(77.675043, 27.565089, 360),
             orientation: {
-                heading: Cesium.Math.toRadians(315),
-                pitch: Cesium.Math.toRadians(-25),
+                heading: Cesium.Math.toRadians(240),
+                pitch: Cesium.Math.toRadians(-26),
                 roll: 0
             }
         },
@@ -184,10 +134,10 @@ const scenes = [
         title: 'Govardhan Hill',
         description: 'A sacred mountain located 21 km from Mathura, where Krishna is believed to have lifted the entire hill to protect villagers from torrential rain. Pilgrims circumambulate the hill in reverence and devotion.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.5944, 27.5031, 800),
+            destination: Cesium.Cartesian3.fromDegrees(77.597643, 27.503801, 900),
             orientation: {
-                heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-28),
+                heading: Cesium.Math.toRadians(270),
+                pitch: Cesium.Math.toRadians(-32),
                 roll: 0
             }
         },
@@ -198,10 +148,10 @@ const scenes = [
         title: 'Festivals: Holi & Janmashtami',
         description: 'Mathura-Vrindavan is the epicenter of Krishna celebrations. Holi (Festival of Colors) and Janmashtami (Krishna\'s Birthday) are celebrated with grandeur, featuring colorful processions, traditional music, and spiritual fervor.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6400, 27.5400, 2000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6850, 27.5350, 2000),
             orientation: {
                 heading: Cesium.Math.toRadians(45),
-                pitch: Cesium.Math.toRadians(-32),
+                pitch: Cesium.Math.toRadians(-38),
                 roll: 0
             }
         },
@@ -212,10 +162,10 @@ const scenes = [
         title: 'Travel Tips',
         description: 'Best time to visit: October to March (cool season). How to reach: Nearest airport is Indira Gandhi International Airport in Delhi (58 km away). Local transport includes taxis, auto-rickshaws, and bicycles. Plan 3-5 days to explore all major sites.',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 2500),
+            destination: Cesium.Cartesian3.fromDegrees(77.6850, 27.5350, 3500),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-35),
+                pitch: Cesium.Math.toRadians(-40),
                 roll: 0
             }
         },
@@ -226,10 +176,10 @@ const scenes = [
         title: 'Thank You',
         description: 'Thank you for joining this spiritual journey through Mathura-Vrindavan. May you find peace, enlightenment, and divine grace in these sacred lands. Hari Om!',
         camera: {
-            destination: Cesium.Cartesian3.fromDegrees(77.6739, 27.5009, 3000),
+            destination: Cesium.Cartesian3.fromDegrees(77.6850, 27.5350, 4000),
             orientation: {
                 heading: Cesium.Math.toRadians(0),
-                pitch: Cesium.Math.toRadians(-35),
+                pitch: Cesium.Math.toRadians(-40),
                 roll: 0
             }
         },
@@ -238,11 +188,97 @@ const scenes = [
 ];
 
 // ============================================
+// GEOJSON LANDMARKS LAYER - ACCURATE COORDINATES
+// ============================================
+const landmarksGeoJSON = {
+    type: 'FeatureCollection',
+    features: [
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.669730, 27.504727] },
+            properties: {
+                name: 'Krishna Janmabhoomi Temple',
+                category: 'Temple',
+                description: 'Birthplace of Lord Krishna'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.686689, 27.504471] },
+            properties: {
+                name: 'Vishram Ghat',
+                category: 'Ghat',
+                description: 'Sacred ghats of the Yamuna River'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.682433, 27.506264] },
+            properties: {
+                name: 'Dwarkadhish Temple',
+                category: 'Temple',
+                description: 'Ancient temple dedicated to Krishna as king of Dwarka'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.702450, 27.583908] },
+            properties: {
+                name: 'Banke Bihari Temple',
+                category: 'Temple',
+                description: 'Famous for unique idol of Krishna in Tribhanga pose'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.677927, 27.572049] },
+            properties: {
+                name: 'ISKCON Temple',
+                category: 'Temple',
+                description: 'Modern spiritual center with beautiful gardens'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.671960, 27.572091] },
+            properties: {
+                name: 'Prem Mandir',
+                category: 'Temple',
+                description: 'Modern architectural marvel with white marble craftsmanship'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.675043, 27.565089] },
+            properties: {
+                name: 'Nidhivan',
+                category: 'Forest Sanctuary',
+                description: 'Mystical forest where Krishna performs divine dances'
+            }
+        },
+        {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [77.597643, 27.503801] },
+            properties: {
+                name: 'Govardhan Hill',
+                category: 'Mountain',
+                description: 'Sacred mountain where Krishna lifted the entire hill'
+            }
+        }
+    ]
+};
+
+// ============================================
 // SCENE NAVIGATION
 // ============================================
-let currentSceneIndex = 0;
 
 function updateScene(index) {
+    // Guard: make sure viewer is ready
+    if (!viewer || !viewer.camera) {
+        console.warn('Viewer not ready yet');
+        return;
+    }
+
     currentSceneIndex = index;
     const scene = scenes[index];
 
@@ -260,11 +296,11 @@ function updateScene(index) {
         descPanel.classList.remove('fade-out');
     }, 200);
 
-    // Update camera with animation
+    // Update camera with animation - 4 seconds for smooth cinematic feel
     viewer.camera.flyTo({
         destination: scene.camera.destination,
         orientation: scene.camera.orientation,
-        duration: 3
+        duration: 4
     });
 
     // Show/hide chart
@@ -362,87 +398,6 @@ function initializeChart() {
     });
 }
 
-// ============================================
-// GEOJSON LANDMARKS LAYER
-// ============================================
-const landmarksGeoJSON = {
-    type: 'FeatureCollection',
-    features: [
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6729, 27.4958] },
-            properties: {
-                name: 'Krishna Janmabhoomi Temple',
-                category: 'Temple',
-                description: 'Birthplace of Lord Krishna'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.7027, 27.4950] },
-            properties: {
-                name: 'Vishram Ghat',
-                category: 'Ghat',
-                description: 'Sacred ghats of the Yamuna River'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6841, 27.4909] },
-            properties: {
-                name: 'Dwarkadhish Temple',
-                category: 'Temple',
-                description: 'Ancient temple dedicated to Krishna as king of Dwarka'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6468, 27.5717] },
-            properties: {
-                name: 'Banke Bihari Temple',
-                category: 'Temple',
-                description: 'Famous for unique idol of Krishna in Tribhanga pose'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6309, 27.5819] },
-            properties: {
-                name: 'ISKCON Temple',
-                category: 'Temple',
-                description: 'Modern spiritual center with beautiful gardens'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6583, 27.5555] },
-            properties: {
-                name: 'Prem Mandir',
-                category: 'Temple',
-                description: 'Modern architectural marvel with white marble craftsmanship'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.6750, 27.5650] },
-            properties: {
-                name: 'Nidhivan',
-                category: 'Forest Sanctuary',
-                description: 'Mystical forest where Krishna performs divine dances'
-            }
-        },
-        {
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [77.5944, 27.5031] },
-            properties: {
-                name: 'Govardhan Hill',
-                category: 'Mountain',
-                description: 'Sacred mountain where Krishna lifted the entire hill'
-            }
-        }
-    ]
-};
-
 // Add GeoJSON entities to map
 async function addLandmarks() {
     try {
@@ -453,21 +408,24 @@ async function addLandmarks() {
         for (let i = 0; i < entities.length; i++) {
             const entity = entities[i];
             entity.point = new Cesium.PointGraphics({
-                pixelSize: 14,
-                color: Cesium.Color.fromCssColorString('#d4a574'),
-                outlineColor: Cesium.Color.fromCssColorString('#6b4423'),
-                outlineWidth: 2
+                pixelSize: 18,
+                color: Cesium.Color.fromCssColorString('#FFD700'),
+                outlineColor: Cesium.Color.fromCssColorString('#FF6B35'),
+                outlineWidth: 3
             });
             
             entity.label = new Cesium.LabelGraphics({
                 text: entity.properties.name.getValue(),
-                font: 'bold 16px sans-serif',
+                font: 'bold 14px sans-serif',
                 fillColor: Cesium.Color.WHITE,
                 outlineColor: Cesium.Color.fromCssColorString('#6b4423'),
-                outlineWidth: 2,
+                outlineWidth: 3,
                 style: Cesium.LabelStyle.FILL_AND_OUTLINE,
                 verticalOrigin: Cesium.VerticalOrigin.TOP,
-                pixelOffset: new Cesium.Cartesian2(0, 20)
+                pixelOffset: new Cesium.Cartesian2(0, 25),
+                showBackground: true,
+                backgroundColor: Cesium.Color.fromCssColorString('rgba(107, 68, 35, 0.8)'),
+                backgroundPadding: new Cesium.Cartesian2(8, 4)
             });
         }
         console.log('Landmarks loaded successfully');
@@ -489,9 +447,60 @@ function toggleFacilities() {
 document.getElementById('facilitiesToggle').addEventListener('change', toggleFacilities);
 
 // ============================================
-// INITIALIZE APPLICATION
+// ASYNC VIEWER INITIALIZATION
 // ============================================
-initializeViewer();
+async function initializeViewer() {
+    try {
+        // Create terrain provider asynchronously
+        const terrainProvider = await Cesium.createWorldTerrainAsync();
+        
+        // Create imagery provider asynchronously
+        const imageryProvider = await Cesium.ArcGisMapServerImageryProvider.fromUrl(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+        );
+
+        // Create Cesium Viewer with resolved providers
+        viewer = new Cesium.Viewer('cesiumContainer', {
+            terrainProvider: terrainProvider,
+            imageryProvider: imageryProvider,
+            animation: false,
+            timeline: false,
+            homeButton: false,
+            fullscreenButton: true,
+            vrButton: false,
+            infoBox: false,
+            sceneModePicker: false,
+            navigationHelpButton: false,
+            baseLayerPicker: true,
+            shadows: true,
+            shouldAnimate: true
+        });
+
+        // Disable default double-click zoom
+        viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
+        // Load OSM Buildings for 3D visualization
+        try {
+            const osmBuildings = await Cesium.createOsmBuildingsAsync();
+            viewer.scene.primitives.add(osmBuildings);
+            console.log('✅ OSM Buildings loaded successfully - 3D buildings will now be visible!');
+        } catch (error) {
+            console.warn('⚠️ OSM Buildings failed to load (may not be available for all regions):', error);
+        }
+
+        // Enable lighting for better 3D effect
+        viewer.scene.globe.enableLighting = true;
+
+        console.log('✅ Cesium Viewer initialized successfully');
+        
+        // NOW initialize landmarks and scene AFTER viewer is fully ready
+        await addLandmarks();
+        updateScene(0);
+        
+    } catch (error) {
+        console.error('❌ Error initializing Cesium viewer:', error);
+    }
+}
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
@@ -502,4 +511,9 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-console.log('Mathura-Vrindavan: A Spiritual Journey - Script loaded');
+// ============================================
+// START APPLICATION
+// ============================================
+initializeViewer();
+
+console.log('🙏 Mathura-Vrindavan: A Spiritual Journey - Script loaded');
