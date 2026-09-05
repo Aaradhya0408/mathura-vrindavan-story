@@ -57,6 +57,11 @@ body {
 .scene-description {
     margin-bottom: 15px;
     min-height: 60px;
+    transition: opacity 0.3s ease;
+}
+
+.scene-description.fade-out {
+    opacity: 0.3;
 }
 
 .scene-description p {
