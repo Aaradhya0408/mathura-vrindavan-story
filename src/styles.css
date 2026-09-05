@@ -1,0 +1,205 @@
+:root {
+    --primary-color: #6b4423;
+    --secondary-color: #d4a574;
+    --accent-color: #ffd700;
+    --text-dark: #2c2c2c;
+    --text-light: #f5f5f5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--text-light);
+    overflow: hidden;
+}
+
+/* Cesium Container */
+.cesium-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Scene Navigation Panel */
+.scene-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 20px;
+    width: 350px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    font-family: 'Georgia', serif;
+}
+
+.scene-header {
+    margin-bottom: 15px;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.scene-header h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.scene-description {
+    margin-bottom: 15px;
+    min-height: 60px;
+}
+
+.scene-description p {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.scene-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.scene-controls button {
+    flex: 1;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.scene-controls button:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+}
+
+.scene-counter {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Facilities Toggle */
+.facilities-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.facilities-toggle .form-check-input {
+    cursor: pointer;
+}
+
+.facilities-toggle .form-check-label {
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+/* Chart Container */
+.chart-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    width: 350px;
+    max-height: 300px;
+}
+
+.chart-container canvas {
+    max-height: 250px;
+}
+
+/* Footer */
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(107, 68, 35, 0.9);
+    color: white;
+    padding: 12px 20px;
+    text-align: right;
+    font-size: 0.85rem;
+    z-index: 99;
+}
+
+footer p {
+    margin: 2px 0;
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .scene-panel {
+        width: calc(100% - 40px);
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .facilities-toggle {
+        top: 10px;
+        right: 10px;
+        font-size: 0.9rem;
+    }
+
+    .chart-container {
+        width: calc(100% - 40px);
+        top: 80px;
+        left: 10px;
+    }
+
+    footer {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        text-align: center;
+        right: auto;
+        left: 0;
+        width: 100%;
+    }
+}
+
+/* Cesium Widget Customization */
+.cesium-widget {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cesium-viewer .cesium-viewer-bottom {
+    display: none;
+}
