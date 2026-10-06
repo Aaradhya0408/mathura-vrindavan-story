@@ -1,50 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathura-Vrindavan: A Spiritual Journey</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./src/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathura-Vrindavan: A Spiritual Journey</title>
+  <link rel="stylesheet" href="./src/styles.css" />
 </head>
 <body>
-    <div id="cesiumContainer" class="cesium-container"></div>
-    
-    <!-- Scene Navigation Panel -->
-    <div id="scenePanel" class="scene-panel">
-        <div class="scene-header">
-            <h2 id="sceneTitle">Welcome to Mathura-Vrindavan</h2>
-        </div>
-        <div class="scene-description">
-            <p id="sceneDescription">Loading scene information...</p>
-        </div>
-        <div class="scene-controls">
-            <button id="prevBtn" class="btn btn-primary btn-sm">← Previous</button>
-            <span id="sceneCounter" class="scene-counter">1 / 12</span>
-            <button id="nextBtn" class="btn btn-primary btn-sm">Next →</button>
-        </div>
+  <div id="cesiumContainer" class="cesium-container"></div>
+  <p id="status" class="status-bar">Opening the globe…</p>
+
+  <aside class="scene-list" id="sceneList" aria-label="Stops"></aside>
+
+  <section id="scenePanel" class="scene-panel">
+    <h2 id="sceneTitle">Mathura-Vrindavan</h2>
+    <p id="sceneDescription">Loading the circuit…</p>
+    <div class="scene-controls">
+      <button id="prevBtn" type="button">Previous</button>
+      <span id="sceneCounter">1 / 12</span>
+      <button id="nextBtn" type="button">Next</button>
     </div>
-
-    <!-- Facilities Toggle -->
-    <div class="facilities-toggle">
-        <label class="form-check-label">
-            <input type="checkbox" id="facilitiesToggle" class="form-check-input">
-            Show Tourist Facilities
-        </label>
+    <div id="chartContainer" class="chart-inline">
+      <canvas id="footfallChart"></canvas>
     </div>
+  </section>
 
-    <!-- Statistics Chart -->
-    <div id="chartContainer" class="chart-container" style="display: none;">
-        <canvas id="footfallChart"></canvas>
-    </div>
+  <aside class="insight-panel">
+    <label class="facility-toggle">
+      <input type="checkbox" id="facilitiesToggle" />
+      Food, stay, and parking
+    </label>
+    <h3>On the ground</h3>
+    <div id="analysis"></div>
+    <p id="weather">Checking the weather at this stop…</p>
+  </aside>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Created by: <a href="https://github.com/Aaradhya0408" target="_blank">Aaradhya Garg</a></p>
-        <p>Built as part of a GIS Developer internship for learning & portfolio purposes</p>
-        <p>Powered by <a href="https://cesium.com/" target="_blank">CesiumJS</a> & <a href="https://vitejs.dev/" target="_blank">Vite</a></p>
-    </footer>
-
-    <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>

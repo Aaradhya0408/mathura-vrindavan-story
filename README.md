@@ -1,6 +1,10 @@
 # Mathura-Vrindavan: A Spiritual Journey
 
-An interactive 3D tourist guide for exploring the sacred spiritual landmarks of Mathura and Vrindavan, where Lord Krishna spent his divine childhood.
+Live site: [https://aaradhya0408.github.io/mathura-vrindavan-story/](https://aaradhya0408.github.io/mathura-vrindavan-story/)
+
+An interactive 3D tourist guide for the sacred landmarks of Mathura and Vrindavan. The submission notes for Cesium's developer certification are in [docs/CERTIFICATION.md](docs/CERTIFICATION.md). Cesium still has to review the project; this repository is prepared for that review, it is not already certified.
+
+The tour uses more than one camera method, measures geodesic distance between stops, plays a festival procession on the timeline, and reads live weather. With a Cesium ion token it also loads world terrain and tints OSM buildings by height.
 
 ## 🌟 Project Overview
 
