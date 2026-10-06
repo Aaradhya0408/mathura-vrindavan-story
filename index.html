@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/mathura-vrindavan-story/cesium/Widgets/widgets.css">
+  <script src="/mathura-vrindavan-story/cesium/Cesium.js"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathura-Vrindavan: A Spiritual Journey</title>
+  <script type="module" crossorigin src="/mathura-vrindavan-story/assets/index-CjehONB6.js"></script>
+  <link rel="stylesheet" crossorigin href="/mathura-vrindavan-story/assets/index-OQXSyGCq.css">
+</head>
+<body>
+  <div id="cesiumContainer" class="cesium-container"></div>
+  <p id="status" class="status-bar">Opening the globe…</p>
+
+  <aside class="scene-list" id="sceneList" aria-label="Stops"></aside>
+
+  <section id="scenePanel" class="scene-panel">
+    <h2 id="sceneTitle">Mathura-Vrindavan</h2>
+    <p id="sceneDescription">Loading the circuit…</p>
+    <div class="scene-controls">
+      <button id="prevBtn" type="button">Previous</button>
+      <span id="sceneCounter">1 / 12</span>
+      <button id="nextBtn" type="button">Next</button>
+    </div>
+    <div id="chartContainer" class="chart-inline">
+      <canvas id="footfallChart"></canvas>
+    </div>
+  </section>
+
+  <aside class="insight-panel">
+    <label class="facility-toggle">
+      <input type="checkbox" id="facilitiesToggle" />
+      Food, stay, and parking
+    </label>
+    <h3>On the ground</h3>
+    <div id="analysis"></div>
+    <p id="weather">Checking the weather at this stop…</p>
+  </aside>
+
+</body>
+</html>
