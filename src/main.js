@@ -270,7 +270,7 @@ async function addFacilities() {
 
 async function addBuildings() {
   if (!token) {
-    setStatus("Running without a Cesium ion token. Terrain stays on the ellipsoid, and 3D buildings stay off. Add VITE_CESIUM_ION_TOKEN to turn them on.");
+    setStatus("Satellite photo is on, using the saved camera for each stop.");
     return;
   }
   try {
@@ -295,11 +295,14 @@ async function addBuildings() {
 
 async function initializeViewer() {
   try {
-    const imagery = await Cesium.ArcGisMapServerImageryProvider.fromUrl(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
-    );
+    const satellite = new Cesium.UrlTemplateImageryProvider({
+      url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      maximumLevel: 19,
+      credit: "Esri, Maxar, Earthstar Geographics"
+    });
     viewer = new Cesium.Viewer("cesiumContainer", {
-      imageryProvider: imagery,
+      baseLayer: new Cesium.ImageryLayer(satellite),
+      terrainProvider: new Cesium.EllipsoidTerrainProvider(),
       animation: true,
       timeline: true,
       infoBox: true,
@@ -310,7 +313,7 @@ async function initializeViewer() {
       navigationHelpButton: false,
       shouldAnimate: true
     });
-    viewer.scene.globe.enableLighting = true;
+    viewer.scene.globe.enableLighting = false;
     viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     addGeometry();
     await addFacilities();
