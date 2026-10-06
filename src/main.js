@@ -24,7 +24,6 @@ function placeById(id) {
 }
 
 function sceneTarget(scene) {
-  if (scene.placeId) return placeById(scene.placeId);
   return { lon: scene.camera.lon, lat: scene.camera.lat };
 }
 
@@ -50,52 +49,16 @@ function unlockCamera() {
 
 async function flyToScene(scene) {
   unlockCamera();
-  const target = sceneTarget(scene);
-  const destination = Cesium.Cartesian3.fromDegrees(target.lon, target.lat, scene.height || scene.camera?.height || 600);
-  const orientation = {
-    heading: Cesium.Math.toRadians(scene.camera?.heading ?? 25),
-    pitch: Cesium.Math.toRadians(scene.camera?.pitch ?? -35),
-    roll: 0
-  };
-
-  if (scene.method === "setView") {
-    viewer.camera.setView({ destination, orientation });
-    return;
-  }
-
-  if (scene.method === "boundingSphere") {
-    const sphere = new Cesium.BoundingSphere(Cesium.Cartesian3.fromDegrees(target.lon, target.lat, 0), 180);
-    await viewer.camera.flyToBoundingSphere(sphere, {
-      duration: 3.2,
-      offset: new Cesium.HeadingPitchRange(orientation.heading, orientation.pitch, scene.height || 700)
-    });
-    return;
-  }
-
-  if (scene.method === "lookAt") {
-    viewer.camera.flyTo({
-      destination,
-      orientation,
-      duration: 2.4,
-      complete: () => {
-        viewer.camera.lookAt(
-          Cesium.Cartesian3.fromDegrees(target.lon, target.lat, 20),
-          new Cesium.HeadingPitchRange(Cesium.Math.toRadians(35), Cesium.Math.toRadians(-28), 480)
-        );
-      }
-    });
-    return;
-  }
-
-  if (scene.method === "flyToEntity") {
-    const entity = viewer.entities.getById(scene.entityId || scene.placeId);
-    if (entity) {
-      await viewer.flyTo(entity, { duration: 3, offset: new Cesium.HeadingPitchRange(orientation.heading, orientation.pitch, scene.height || 650) });
-      return;
-    }
-  }
-
-  await viewer.camera.flyTo({ destination, orientation, duration: 3.2 });
+  const camera = scene.camera;
+  await viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(camera.lon, camera.lat, camera.height),
+    orientation: {
+      heading: Cesium.Math.toRadians(camera.heading),
+      pitch: Cesium.Math.toRadians(camera.pitch),
+      roll: 0
+    },
+    duration: 4
+  });
 }
 
 function updateAnalysis(scene) {
@@ -114,7 +77,7 @@ function updateAnalysis(scene) {
     { lon: 77.47, lat: 27.51 }
   ]);
   document.getElementById("analysis").innerHTML = `
-    <p><b>Camera.</b> ${scene.method}</p>
+    <p><b>View.</b> ${scene.camera.lat.toFixed(5)}, ${scene.camera.lon.toFixed(5)}, ${Math.round(scene.camera.height)} m</p>
     <p><b>Nearest stop.</b> ${nearest ? `${nearest.place.name}, ${km(nearest.meters)}` : "You are on the overview."}</p>
     <p><b>Full temple circuit.</b> ${km(circuit)}</p>
     <p><b>Govardhan parikrama sample.</b> ${km(parikrama)}</p>
@@ -123,7 +86,7 @@ function updateAnalysis(scene) {
   const radius = viewer.entities.getById("walk-radius");
   if (radius) {
     radius.position = Cesium.Cartesian3.fromDegrees(here.lon, here.lat);
-    radius.show = Boolean(scene.placeId);
+    radius.show = false;
   }
 }
 
@@ -217,7 +180,7 @@ function addGeometry() {
       },
       model: {
         uri: `${import.meta.env.BASE_URL}models/shikhara.gltf`,
-        scale: 18,
+        scale: 6,
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         color: Cesium.Color.fromCssColorString("#d4a574")
       }

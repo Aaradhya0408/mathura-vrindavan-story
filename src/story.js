@@ -6,7 +6,7 @@ export const landmarks = [
   { id: "iskcon", name: "ISKCON Temple", category: "Temple", lon: 77.677927, lat: 27.572049, description: "A modern temple and garden on the edge of Vrindavan." },
   { id: "prem", name: "Prem Mandir", category: "Temple", lon: 77.67196, lat: 27.572091, description: "White marble temple completed in 2012." },
   { id: "nidhivan", name: "Nidhivan", category: "Forest", lon: 77.675043, lat: 27.565089, description: "The grove associated with the nightly rasleela." },
-  { id: "govardhan", name: "Govardhan Hill", category: "Hill", lon: 77.4622, lat: 27.4984, description: "The hill Krishna is said to have lifted. The parikrama path circles it." }
+  { id: "govardhan", name: "Govardhan Hill", category: "Hill", lon: 77.597643, lat: 27.503801, description: "Sacred mountain where Krishna lifted the entire hill." }
 ];
 
 export const facilities = {
@@ -28,91 +28,76 @@ export const yamuna = [
   [77.708, 27.512]
 ];
 
-const overview = { lon: 77.685, lat: 27.535, height: 3500, heading: 45, pitch: -35 };
-
 export const scenes = [
   {
     title: "Welcome to Mathura-Vrindavan",
-    description: "A guided flight across the two towns where Krishna's childhood is remembered. Each stop uses a different camera move, and the panels measure the walk between them.",
-    camera: overview,
-    method: "flyTo",
+    description: "Embark on a spiritual journey through the sacred lands of Mathura and Vrindavan, where Lord Krishna spent his divine childhood. This interactive 3D guide will take you through the most revered temples and pilgrimage sites.",
+    camera: { lon: 77.685, lat: 27.535, height: 3500, heading: 45, pitch: -40 },
     showChart: true
   },
   {
     title: "Krishna Janmabhoomi Temple",
-    description: "The temple complex at the place remembered as Krishna's birth. The camera frames the precinct with a bounding sphere instead of a straight fly-to.",
+    description: "The birthplace of Lord Krishna. This ancient temple stands at the exact spot where Krishna is believed to have been born. The temple complex showcases architectural brilliance and deep spiritual significance.",
     placeId: "janmabhoomi",
-    method: "boundingSphere",
-    height: 420
+    camera: { lon: 77.669795806, lat: 27.504727, height: 418.2712, heading: 360, pitch: -90 }
   },
   {
-    title: "Vishram Ghat and the Yamuna",
-    description: "The river bend at Mathura. A time-animated procession moves along the ghat while you watch the water line.",
+    title: "Vishram Ghat & Yamuna River",
+    description: "The sacred ghats of the Yamuna River where Krishna is said to have rested after defeating the demon Kansa. The river itself is considered holy and is central to the spiritual life of Mathura.",
     placeId: "vishram",
-    method: "flyToEntity",
-    entityId: "yamuna",
-    height: 700
+    camera: { lon: 77.686689, lat: 27.504471, height: 723, heading: 360, pitch: -90 }
   },
   {
     title: "Dwarkadhish Temple",
-    description: "The old-city temple of Krishna as king of Dwarka. The camera locks into a look-at so the spire stays in frame while you orbit.",
+    description: "Dedicated to Krishna as the king of Dwarka, this ancient temple reflects the architectural style of medieval India. It is one of the oldest temples in Mathura with intricate stone carvings and sculptures.",
     placeId: "dwarkadhish",
-    method: "lookAt",
-    height: 280
+    camera: { lon: 77.68475664290054, lat: 27.505050728, height: 325.43529, heading: 360, pitch: -90 }
   },
   {
     title: "Banke Bihari Temple",
-    description: "Vrindavan's busiest lane. The idol is shown in the tribhanga pose, and the surrounding 3D buildings, when a Cesium ion token is set, are tinted by height.",
+    description: "Located in Vrindavan, this temple is famous for its unique idol of Krishna in a three-fold bend pose (Tribhanga). The temple attracts thousands of devotees daily and is known for its vibrant festivals and rituals.",
     placeId: "banke",
-    method: "flyTo",
-    height: 380
+    camera: { lon: 77.702297, lat: 27.582296, height: 450.8624, heading: 360, pitch: -90 }
   },
   {
     title: "ISKCON Temple",
-    description: "The Krishna-Balaram temple and its gardens, west of the old lanes.",
+    description: "The International Society for Krishna Consciousness temple in Vrindavan is a modern spiritual center. It features magnificent architecture, beautiful gardens, and serves as a hub for spiritual education and devotion.",
     placeId: "iskcon",
-    method: "boundingSphere",
-    height: 450
+    camera: { lon: 77.67514751042745, lat: 27.569233875039977, height: 433.9466974273855, heading: 360, pitch: -90 }
   },
   {
     title: "Prem Mandir",
-    description: "A marble temple finished in 2012. At night in the scene clock the marble reads against the lit globe.",
+    description: "A modern architectural marvel completed in 2012, Prem Mandir showcases white marble craftsmanship and intricate carvings. The temple is beautifully illuminated at night and offers panoramic views of Vrindavan.",
     placeId: "prem",
-    method: "lookAt",
-    height: 520
+    camera: { lon: 77.67196, lat: 27.572091, height: 744, heading: 360, pitch: -90 }
   },
   {
     title: "Nidhivan",
-    description: "The grove kept for the rasleela. A model spire marks the grove so it stays visible above the trees.",
+    description: "A mystical forest sanctuary where Krishna is believed to perform divine dances (Raas Leela) every night. The dense forest of sacred trees attracts pilgrims seeking spiritual experiences and divine blessings.",
     placeId: "nidhivan",
-    method: "flyToEntity",
-    height: 360
+    camera: { lon: 77.70455403026638, lat: 27.580250327, height: 474, heading: 360, pitch: -90 }
   },
   {
     title: "Govardhan Hill",
-    description: "About 21 km from Mathura. The drawn parikrama is a geospatial measurement, not a decoration: the panel reports its length.",
+    description: "A sacred mountain located 21 km from Mathura, where Krishna is believed to have lifted the entire hill to protect villagers from torrential rain. Pilgrims circumambulate the hill in reverence and devotion.",
     placeId: "govardhan",
-    method: "flyTo",
-    height: 1800
+    camera: { lon: 77.4437643, lat: 27.43801, height: 688.5361, heading: 360, pitch: -90 }
   },
   {
-    title: "Holi and Janmashtami",
-    description: "The clock jumps to a festival evening and plays a procession along the Yamuna. Footfall in the chart peaks in those seasons.",
-    camera: { lon: 77.685, lat: 27.535, height: 2200, heading: 20, pitch: -32 },
-    method: "flyTo",
+    title: "Festivals: Holi & Janmashtami",
+    description: "Mathura-Vrindavan is the epicenter of Krishna celebrations. Holi (Festival of Colors) and Janmashtami (Krishna's Birthday) are celebrated with grandeur, featuring colorful processions, traditional music, and spiritual fervor.",
+    camera: { lon: 77.685, lat: 27.535, height: 2000, heading: 45, pitch: -38 },
     showChart: true,
     festival: true
   },
   {
-    title: "How to travel",
-    description: "October to March is the easier season. Delhi airport is about 150 km by road. The distance panel is the same geodesic math you can use to plan a day.",
-    camera: overview,
-    method: "setView"
+    title: "Travel Tips",
+    description: "Best time to visit: October to March (cool season). How to reach: Nearest airport is Indira Gandhi International Airport in Delhi (58 km away). Local transport includes taxis, auto-rickshaws, and bicycles. Plan 3-5 days to explore all major sites.",
+    camera: { lon: 77.685, lat: 27.535, height: 3500, heading: 0, pitch: -40 }
   },
   {
-    title: "End of the circuit",
-    description: "The circuit returns to the wide view. Click any place in the list, or a marker, to go back.",
-    camera: { ...overview, height: 4200, pitch: -40 },
-    method: "flyTo"
+    title: "Thank You",
+    description: "Thank you for joining this spiritual journey through Mathura-Vrindavan. May you find peace, enlightenment, and divine grace in these sacred lands. Hari Om!",
+    camera: { lon: 77.685, lat: 27.535, height: 4000, heading: 0, pitch: -40 }
   }
 ];
