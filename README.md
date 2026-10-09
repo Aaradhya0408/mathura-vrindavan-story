@@ -1,6 +1,6 @@
 # Mathura-Vrindavan: A Spiritual Journey
 
-Live site: [https://aaradhya0408.github.io/mathura-vrindavan-story/](https://aaradhya0408.github.io/mathura-vrindavan-story/)
+
 
 An interactive 3D tourist guide for the sacred landmarks of Mathura and Vrindavan. The submission notes for Cesium's developer certification are in [docs/CERTIFICATION.md](docs/CERTIFICATION.md). Cesium still has to review the project; this repository is prepared for that review, it is not already certified.
 
